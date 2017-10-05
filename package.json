@@ -1,0 +1,22 @@
+{
+  "name": "gallery-by-react",
+  "version": "1.0.0",
+  "description": "one photo gallery project based on react",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZrdZz/gallery-by-react.git"
+  },
+  "author": "zrd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZrdZz/gallery-by-react/issues"
+  },
+  "homepage": "https://github.com/ZrdZz/gallery-by-react#readme",
+  "devDependencies": {
+    "webpack": "^3.6.0"
+  }
+}
