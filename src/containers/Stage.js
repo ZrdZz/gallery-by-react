@@ -9,13 +9,13 @@ getImageURL()
 
 export default class Stage extends Component{
   render(){
-  	<section className = "stage">
+    <section className = "stage">
       <section className = "img-sec">
         <ImgFigures />
       </section>
       <nav className = "controller-nav">
-	    <ControllerUnits />
+	<ControllerUnits />
       </nav>
-  	</section>	
+    </section>	
   }
 }
