@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
   entry: __dirname + "/src/index.js",
 
@@ -9,25 +11,23 @@ module.exports = {
   devtool: "eval-source-map",
 
   devServer: {
-  	contentBase: "./build",
+  	contentBase: "./src/build",
   	historyApiFallback: true,
-  	inline: true
+  	inline: true,
+    hot: true
   },
 
   module: {
     rules: [
       {
-        test: /(\.jsx|\.js)$/,
+        test: /\.(jsx|js)$/,
         use: {
           loader: "babel-loader",
-          options: {
-            presets:["es2015", "react"]
-          }
         },
         exclude: /node_modules/
       },
       {
-        test: /\.scss$/,
+        test: /\.css$/,
         use: [
           {
             loader: "style-loader"
@@ -37,10 +37,8 @@ module.exports = {
             options: {
               modules: true
             }
-          },
-          {
-            loader: "sass-loader"
           }
+
         ]
       },
       {
@@ -51,7 +49,16 @@ module.exports = {
             limit: 8192
           }
         }
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: {
+          loader: 'file-loader',
+          options: {}
+        }
       }
     ]
-  }
+  },
+
+  plugins: [new webpack.HotModuleReplacementPlugin()]
 }
