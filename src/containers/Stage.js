@@ -16,6 +16,7 @@ imageDatas = (function(imageDatasArr){
 
 export default class Stage extends Component{
   render(){
+<<<<<<< HEAD
     return(
       <section className = "stage">
         <section className = "img-sec">
@@ -26,5 +27,15 @@ export default class Stage extends Component{
         </nav>
       </section>  
     )
+=======
+    <section className = "stage">
+      <section className = "img-sec">
+        <ImgFigures />
+      </section>
+      <nav className = "controller-nav">
+	<ControllerUnits />
+      </nav>
+    </section>	
+>>>>>>> ee584a6525db5f565cfd7d54ef20ec483856d5eb
   }
 }
