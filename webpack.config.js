@@ -27,34 +27,28 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.css$/,
+        test: /\.scss$/,
         use: [
           {
             loader: "style-loader"
           },
           {
-            loader: "css-loader",
-            options: {
-              modules: true
-            }
+            loader: "css-loader"
+          },
+          {
+            loader: "sass-loader"
           }
 
         ]
       },
       {
-        test: /\.(png|jpg|woff|woff2|eot|ttf|svg)$/,
+        test: /\.(png|jpg|jpeg)$/,
         use: {
           loader: 'url-loader',
           options: {
-            limit: 8192
+            limit: 8192,
+            name: 'images/[name].[ext]' 
           }
-        }
-      },
-      {
-        test: /\.(png|jpg|gif)$/,
-        use: {
-          loader: 'file-loader',
-          options: {}
         }
       }
     ]
