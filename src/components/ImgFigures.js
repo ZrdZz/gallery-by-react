@@ -7,7 +7,16 @@ export default class ImgFigures extends Component{
   	return(
       <div>
         {this.props.imageDatas.map((imageData, i) => {
-          return <ImgFigure imageData = {imageData} key = {i}/>
+          if(!this.props.imgsArrangeArr[i]){
+            this.props.imgsArrangeArr[i] = {
+              pos: {
+                left: 0,
+                top: 0
+              }
+            };            
+          }
+          
+          return <ImgFigure imageData = {imageData} key = {i} imgState = {this.props.imgsArrangeArr[i]}/>
         })}
       </div>
   	)
