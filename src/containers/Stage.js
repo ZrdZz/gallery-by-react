@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import ImgFigures from '../components/ImgFigures'
+import ControllerUnits from '../components/ControllerUnits'
 
 //获取图片相关的数据
 var imageDatas = require('../data/imageDatas.json');
@@ -21,6 +22,11 @@ function getRangeRandom(low, high){
   return Math.floor(Math.random() * (high - low) + low);
 }
 
+//取得0~30deg正负随机值
+function getDegRandom(){
+  return ((Math.random() > 0.5 ? '' : '-') + Math.ceil(Math.random() * 30));
+}
+
 export default class Stage extends Component{
   constructor(props){
     super(props);
@@ -30,13 +36,16 @@ export default class Stage extends Component{
             pos: {
               left: 0,
               top: 0
-            }
+            },
+            rotate: 0,
+            isInverse: false  //默认false,图片为正面
+            isCenter: false   //默认false,图片不居中
           }*/
       ]
     };
   }
 
-  //排布的取值范围
+  //排布的取值范围,声明实例属性的方法
   Constant = {
     centerPos: {
       left: 0,
@@ -53,6 +62,32 @@ export default class Stage extends Component{
     }
   }
   
+  /*
+   *翻转图片
+   *@param index 传入图片的index值 imgsArrangeArr 图片状态
+   *@return {Function} 这是一个闭包函数
+   */
+  inverse(){
+    return function(index){
+              return function(imgsArrangeArr){
+                imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
+                this.setState({imgsArrangeArr});
+              }.bind(this);
+           }.bind(this);
+  }
+
+  /*
+   *居中图片
+   *@param index 传入图片的index值
+   */
+  center(){
+    return function(index){
+             return function(){
+               this.arrange(index);
+             }.bind(this);
+           }.bind(this);
+  }
+
   /*
    *布局图片
    *@param centerIndex 指定居中排布哪个图片
@@ -80,9 +115,11 @@ export default class Stage extends Component{
         //取得放在中部的图片状态
         imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex, 1);
 
-      //居中图片
+      //居中图片,旋转角度为0
       imgsArrangeCenterArr[0] = {
-        pos: centerPos
+        pos: centerPos,
+        rotate: 0,
+        isCenter: true
       };
     
       //取得上层的图片状态
@@ -95,7 +132,9 @@ export default class Stage extends Component{
           pos: {
             top: getRangeRandom(vPosRangeTopY[0], vPosRangeTopY[1]),
             left: getRangeRandom(vPosRangeX[0], vPosRangeX[1])
-          }
+          },
+          rotate: getDegRandom(),
+          isCenter: false
         };
       });
 
@@ -114,7 +153,9 @@ export default class Stage extends Component{
           pos: {
             top: getRangeRandom(hPosRangeY[0], hPosRangeY[1]),
             left: getRangeRandom(hPosRangeLORX[0], hPosRangeLORX[1])
-          }
+          },
+          rotate: getDegRandom(),
+          isCenter: false
         };
       }
 
@@ -123,13 +164,13 @@ export default class Stage extends Component{
         imgsArrangeArr.splice(topImgSpliceIndex, 0, imgsArrangeTopArr[0]);
       }
 
-      imgsArrangeArr.splice(centerPos, 0, imgsArrangeCenterArr[0]);
+      imgsArrangeArr.splice(centerIndex, 0, imgsArrangeCenterArr[0]);
 
       this.setState({imgsArrangeArr});
   }
 
 
-  //为每张图片计算其位置的范围
+  //为每张图片计算其位置的范围,等组件加载完才能计算范围
   componentDidMount(){
     //舞台信息
     var stageDOM = this.stage,
@@ -172,10 +213,10 @@ export default class Stage extends Component{
     return(
       <section className = "stage" ref = {(stage) => {this.stage = stage;}}>
         <section className = "img-sec" ref = {(imgs) => {this.imgs = imgs;}}>
-          <ImgFigures imageDatas = {imageDatas} imgsArrangeArr = {this.state.imgsArrangeArr}/>
+          <ImgFigures imageDatas = {imageDatas} imgsArrangeArr = {this.state.imgsArrangeArr} inverse = {this.inverse()} center = {this.center()}/>
         </section>
         <nav className = "controller-nav">
-        
+          <ControllerUnits imgsArrangeArr = {this.state.imgsArrangeArr} inverse = {this.inverse()} center = {this.center()}/>
         </nav>
       </section>  
     )

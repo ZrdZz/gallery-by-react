@@ -12,11 +12,14 @@ export default class ImgFigures extends Component{
               pos: {
                 left: 0,
                 top: 0
-              }
+              },
+              rotate: 0,
+              isInverse: false,
+              isCenter: false
             };            
           }
-          
-          return <ImgFigure imageData = {imageData} key = {i} imgState = {this.props.imgsArrangeArr[i]}/>
+
+          return <ImgFigure imageData = {imageData} key = {i} imgsArrangeArr = {this.props.imgsArrangeArr} imgState = {this.props.imgsArrangeArr[i]} inverse = {this.props.inverse(i)} center = {this.props.center(i)}/>
         })}
       </div>
   	)
