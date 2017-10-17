@@ -7,13 +7,15 @@ export default class ControllerUnits extends Component{
   	return(
       <div>
         {this.props.imgsArrangeArr.map((imgState, i) => {
-		  return <ControllerUnit key = {i} imgsArrangeArr = {this.props.imgsArrangeArr} imgState = {imgState} inverse = {this.props.inverse(i)} center = {this.props.center(i)}/>
-		})}
+		      return <ControllerUnit key = {i} imgsArrangeArr = {this.props.imgsArrangeArr} imgState = {imgState} inverse = {this.props.inverse(i)} center = {this.props.center(i)}/>
+		    })}
       </div>
   	)
   }
 }
 
 ControllerUnits.propTypes = {
-  imgsArrangeArr: PropTypes.array
+  imgsArrangeArr: PropTypes.array,
+  inverse: PropTypes.func,
+  center: PropTypes.func
 }

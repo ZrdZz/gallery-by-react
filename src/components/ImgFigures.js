@@ -27,5 +27,8 @@ export default class ImgFigures extends Component{
 }
 
 ImgFigures.propTypes = {
-  imageDatas: PropTypes.array
+  imageDatas: PropTypes.array,
+  imgsArrangeArr: PropTypes.array,
+  inverse: PropTypes.func,
+  center: PropTypes.func
 }

@@ -6,7 +6,6 @@ export default class ImgFigure extends Component{
     if(this.props.imgState.isCenter){
       this.props.inverse(this.props.imgsArrangeArr);
     }else{
-      console.log(this.props.imgsArrangeArr);
       this.props.center();
     }    
     e.stopPropagation();
@@ -63,5 +62,9 @@ export default class ImgFigure extends Component{
 }
 
 ImgFigure.propTypes = {
-  imageData: PropTypes.object
+  imageData: PropTypes.object,
+  imgState: PropTypes.object,
+  imgsArrangeArr: PropTypes.array,
+  inverse: PropTypes.func,
+  center: PropTypes.func
 }

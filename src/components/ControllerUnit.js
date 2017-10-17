@@ -33,5 +33,8 @@ export default class ControllerUnit extends Component{
 }
 
 ControllerUnit.propTypes = {
-  imageState: PropTypes.object
+  imageState: PropTypes.object,
+  imgsArrangeArr: PropTypes.array,
+  inverse: PropTypes.func,
+  center: PropTypes.func
 }

@@ -12,8 +12,8 @@ imageDatas = (function(imageDatasArr){
 
     singleImageData.imageURL = require('../images/' + singleImageData.fileName);
     imageDatasArr[i] = singleImageData;
-    console.log(singleImageData.imageURL);
   }
+  
   return imageDatasArr; 
 })(imageDatas);
 
