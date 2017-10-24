@@ -1,3 +1,4 @@
+
 # gallery-by-react
 one photo gallery project based on react
 
@@ -30,3 +31,24 @@ one photo gallery project based on react
           - publicPath: 表示打包文件中引用文件的路径前缀，可以是绝对路径或相对路径，相对路径是相对于`index.html`。
           - outputPath：表示输出文件路径前缀,`outputPath: img/`,图片被打包时，就会在输出文件夹下新建（如果没有）一个名为img的文件夹，把图片放到里面。
             两路径都以/结尾。
+            
+## @font-face
+
+`@font-face`规则支持的CSS属性：`font-family`,`src`,`font-weight`,`font-style`,`unicode-range`,`font-variant`,`font-stretch`,`font-feature-settings`
+
+- `font-family`: 字体变量,名称随意,原本系统就有的名称不能随便设置。
+- `src`: 调用字体文件。
+- `font-style`: 不同样式使用不同字体。
+- `font-weight`: 不同字重使用不同字体。
+- `unicode-range`: 让特定的字符或字符片段使用特定的字体。
+
+
+
+
+
+
+
+
+
+
+
