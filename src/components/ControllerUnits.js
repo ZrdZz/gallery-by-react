@@ -1,21 +1,17 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+import React, {Component, PropTypes} from 'react'
 import ControllerUnit from './ControllerUnit'
 
 export default class ControllerUnits extends Component{
   render(){
   	return(
       <div>
-        {this.props.imgsArrangeArr.map((imgState, i) => {
-		      return <ControllerUnit key = {i} imgsArrangeArr = {this.props.imgsArrangeArr} imgState = {imgState} inverse = {this.props.inverse(i)} center = {this.props.center(i)}/>
-		    })}
+        {
+  	      this.props.imgsStateArr.map((imgState, i) => {
+  	        return <ControllerUnit imgState = {imgState} imgsStateArr = {this.props.imgsStateArr} key = {i} index = {i} arrangeImgs = {this.props.arrangeImgs} arrange = {this.props.arrange}/>
+  	      })
+        }
       </div>
-  	)
+    )
   }
-}
+} 
 
-ControllerUnits.propTypes = {
-  imgsArrangeArr: PropTypes.array,
-  inverse: PropTypes.func,
-  center: PropTypes.func
-}

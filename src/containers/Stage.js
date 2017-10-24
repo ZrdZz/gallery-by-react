@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
-import ImgFigures from '../components/ImgFigures'
-import ControllerUnits from '../components/ControllerUnits'
+import ImgFigures from './ImgFiguresContainer'
+import ControllerUnits from './ControllerUnitsContainer'
+import {connect} from 'react-redux'
+import {arrangeImgs} from '../reducers/ImgStatesReducer'
 
 //获取图片相关的数据
 var imageDatas = require('../data/imageDatas.json');
@@ -27,24 +29,7 @@ function getDegRandom(){
   return ((Math.random() > 0.5 ? '' : '-') + Math.ceil(Math.random() * 30));
 }
 
-export default class Stage extends Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      imgsArrangeArr:[
-        /*{
-            pos: {
-              left: 0,
-              top: 0
-            },
-            rotate: 0,
-            isInverse: false  //默认false,图片为正面
-            isCenter: false   //默认false,图片不居中
-          }*/
-      ]
-    };
-  }
-
+class Stage extends Component{
   //排布的取值范围,声明实例属性的方法
   Constant = {
     centerPos: {
@@ -61,48 +46,20 @@ export default class Stage extends Component{
       topY: [0, 0]
     }
   }
-  
-  /*
-   *翻转图片
-   *@param index 传入图片的index值 imgsArrangeArr 图片状态
-   *@return {Function} 这是一个闭包函数
-   */
-  inverse(){
-    return function(index){
-              return function(imgsArrangeArr){
-                imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
-                this.setState({imgsArrangeArr});
-              }.bind(this);
-           }.bind(this);
-  }
-
-  /*
-   *居中图片
-   *@param index 传入图片的index值
-   */
-  center(){
-    return function(index){
-             return function(){
-               this.arrange(index);
-             }.bind(this);
-           }.bind(this);
-  }
 
   /*
    *布局图片
    *@param centerIndex 指定居中排布哪个图片
    */
   arrange(centerIndex){
-    var imgsArrangeArr = this.state.imgsArrangeArr,
-        
+    var imgsArrangeArr = this.props.imgsStateArr,        
         Constant = this.Constant,
-        centerPos = Constant.centerPos,
-        
+        centerPos = Constant.centerPos,        
         hPosRange = Constant.hPosRange,
         hPosRangeLeftSecX = hPosRange.leftSecX,
         hPosRangeRightSecX = hPosRange.rightSecX,
-        hPosRangeY = hPosRange.y,
-        
+        hPosRangeY = hPosRange.y,        
+
         vPosRange = Constant.vPosRange,
         vPosRangeTopY = vPosRange.topY,
         vPosRangeX = vPosRange.x,
@@ -119,42 +76,43 @@ export default class Stage extends Component{
       imgsArrangeCenterArr[0] = {
         pos: centerPos,
         rotate: 0,
+        isInverse: false,
         isCenter: true
       };
-    
+   
       //取得上层的图片状态
       topImgSpliceIndex = Math.floor(Math.random() * imgsArrangeArr.length);
       imgsArrangeTopArr = imgsArrangeArr.splice(topImgSpliceIndex, topImgNum);
-      
+
       //布局上层的图片
-      imgsArrangeTopArr.map(function(value, index){
+      imgsArrangeTopArr.map(function(value, index){  //map、forEach不会对空数组进行检测
         imgsArrangeTopArr[index] = {
           pos: {
             top: getRangeRandom(vPosRangeTopY[0], vPosRangeTopY[1]),
             left: getRangeRandom(vPosRangeX[0], vPosRangeX[1])
           },
           rotate: getDegRandom(),
+          isInverse: false,
           isCenter: false
         };
       });
 
       //布局两侧图片
       for(var i = 0, len = imgsArrangeArr.length, k = len / 2; i < len; i++){
-        var hPosRangeLORX = null;
-          
+        var hPosRangeLORX = null;          
         //前半部分图片放在左边，后半部分图片放在右边
         if(i < k){
           hPosRangeLORX = hPosRangeLeftSecX;
         }else{
           hPosRangeLORX = hPosRangeRightSecX;
         }
-
         imgsArrangeArr[i] = {
           pos: {
             top: getRangeRandom(hPosRangeY[0], hPosRangeY[1]),
             left: getRangeRandom(hPosRangeLORX[0], hPosRangeLORX[1])
           },
           rotate: getDegRandom(),
+          isInverse: false,
           isCenter: false
         };
       }
@@ -165,13 +123,11 @@ export default class Stage extends Component{
       }
 
       imgsArrangeArr.splice(centerIndex, 0, imgsArrangeCenterArr[0]);
-
-      this.setState({imgsArrangeArr});
+      return imgsArrangeArr;
   }
 
-
   //为每张图片计算其位置的范围,等组件加载完才能计算范围
-  componentDidMount(){
+  componentDidMount(){   //只执行一次
     //舞台信息
     var stageDOM = this.stage,
         stageW = stageDOM.scrollWidth,
@@ -206,19 +162,38 @@ export default class Stage extends Component{
     this.Constant.vPosRange.x[0] = halfStageW - imgW;
     this.Constant.vPosRange.x[1] = halfStageW;
 
-    this.arrange(0);
+    this.props.arrangeImgs(this.arrange(0));
+
   }
 
   render(){
-    return(
-      <section className = "stage" ref = {(stage) => {this.stage = stage;}}>
-        <section className = "img-sec" ref = {(imgs) => {this.imgs = imgs;}}>
-          <ImgFigures imageDatas = {imageDatas} imgsArrangeArr = {this.state.imgsArrangeArr} inverse = {this.inverse()} center = {this.center()}/>
+  	return(
+      <section className = "stage" ref = {(stage) => {this.stage = stage}}>
+        <section className = "img-sec"  ref = {(imgs) => {this.imgs = imgs;}}>
+          <ImgFigures imageDatas = {imageDatas} arrange = {this.arrange.bind(this)}/>
         </section>
         <nav className = "controller-nav">
-          <ControllerUnits imgsArrangeArr = {this.state.imgsArrangeArr} inverse = {this.inverse()} center = {this.center()}/>
+          <ControllerUnits arrange = {this.arrange.bind(this)}/>
         </nav>
-      </section>  
-    )
+      </section> 
+  	)
   }
 }
+
+const mapStateToProps = (state) => {
+  return{
+    imgsStateArr: state.imgsStateArr
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    arrangeImgs: (imgsArrangeArr) => {
+      dispatch(arrangeImgs(imgsArrangeArr))
+    }
+  }
+}
+
+Stage = connect(mapStateToProps,mapDispatchToProps)(Stage)
+
+export default Stage

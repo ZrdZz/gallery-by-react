@@ -4,10 +4,13 @@ import PropTypes from 'prop-types'
 export default class ImgFigure extends Component{
   handleClick(e){
     if(this.props.imgState.isCenter){
-      this.props.inverse(this.props.imgsArrangeArr);
+      this.props.imgState.isInverse = !this.props.imgState.isInverse;
+      this.props.arrangeImgs(this.props.imgsStateArr);
     }else{
-      this.props.center();
-    }    
+      this.props.imgState.isCenter = !this.props.imgState.isCenter;
+      this.props.arrangeImgs(this.props.arrange(this.props.index));
+    }
+
     e.stopPropagation();
     e.preventDefault();
   }
@@ -33,9 +36,8 @@ export default class ImgFigure extends Component{
       styleObj = this.deepCopy(this.props.imgState.pos);
     }
 
-    //如果图片旋转角度有值，则添加
     if(this.props.imgState.rotate){
-      styleObj['transform'] = 'rotate(' + this.props.imgState.rotate + 'deg)';
+      styleObj.transform = 'rotate(' + this.props.imgState.rotate + 'deg)';
     }
 
     if(this.props.imgState.isCenter){
@@ -46,10 +48,10 @@ export default class ImgFigure extends Component{
         imgFigureClassName += this.props.imgState.isInverse ? ' is-inverse' : '';
    
   	return(
-      <figure className = {imgFigureClassName} style = {styleObj} onClick = {this.handleClick.bind(this)}>
+      <figure className = {imgFigureClassName} style = {styleObj} onClick={this.handleClick.bind(this)}>
         <img src = {this.props.imageData.imageURL} alt = {this.props.imageData.title}/>
         <figcaption>
-          <h2 className = "img-title">{this.props.imageData.title}</h2>
+          <h2 className = "img-title">{this.props.imageData.title}</h2>          
           <div className = "img-back" onClick={this.handleClick.bind(this)}>
             <p>
               {this.props.imageData.desc}
@@ -59,12 +61,4 @@ export default class ImgFigure extends Component{
       </figure>
   	)
   }
-}
-
-ImgFigure.propTypes = {
-  imageData: PropTypes.object,
-  imgState: PropTypes.object,
-  imgsArrangeArr: PropTypes.array,
-  inverse: PropTypes.func,
-  center: PropTypes.func
 }
