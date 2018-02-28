@@ -2,7 +2,7 @@ const ARRANGE_IMGS = 'ARRANGE_IMGS'
 
 export default function(imgsStateArr = [], action){
   if(imgsStateArr.length <= 0){
-  	for(var i = 0; i < 16; i++){
+    for(var i = 0; i < 16; i++){
       imgsStateArr[i] = {
         pos: {
           left: 0,
@@ -13,7 +13,6 @@ export default function(imgsStateArr = [], action){
         isCenter: false
       }
     }
-
     return {imgsStateArr};
   }
 
