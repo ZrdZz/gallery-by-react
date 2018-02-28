@@ -2,7 +2,7 @@
 # gallery-by-react
 one photo gallery project based on react
 
-根据慕课网上的视频所做的一个小项目，第一次写有很多不足，代码性能很差，等总结完后尝试着优化一下，通过这个项目主要练习了一下webpack配置、CSS3、React组件化。
+根据慕课网上的视频所做的一个小项目, 通过这个项目主要练习了一下webpack配置、CSS3、React组件化。
 
 # 总结一些知识点
 
