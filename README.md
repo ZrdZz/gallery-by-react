@@ -4,6 +4,9 @@ one photo gallery project based on react
 
 根据慕课网上的视频所做的一个小项目, 通过这个项目主要练习了一下webpack配置、CSS3、React组件化。
 
+gif图有点问题
+![](https://github.com/ZrdZz/gallery-by-react/raw/master/src/gif/3.gif)
+
 # 总结一些知识点
 
 ## webpack配置
