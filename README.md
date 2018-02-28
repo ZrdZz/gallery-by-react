@@ -44,7 +44,6 @@ one photo gallery project based on react
 
 ***
 
-这几天试着优化了下,然而越优越糟糕,感觉不如不优化。。。其间遇到很多基础错误,导致浪费了很多时间,所以要补补基础了。
 
 
 
