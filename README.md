@@ -7,8 +7,6 @@ one photo gallery project based on react
 gif图有点问题
 ![](https://github.com/ZrdZz/gallery-by-react/raw/master/src/gif/3.gif)
 
-# 总结一些知识点
-
 ## webpack配置
 
 - `--save-dev`是将模块安装在开发环境下的参数,`--save`是将模块安装在生产环境中。
