@@ -28,7 +28,7 @@ html, body{
 	height: 100%;
 	overflow: hidden;
 	background: #ddd;
-	perspective: 1800px;    /*景深,值越小3D效果越明显*/
+	perspective: 1800px;    /*景深,值越小3D效果越明显,作用在子元素上*/
 
 	@at-root{
 
@@ -40,10 +40,11 @@ html, body{
 			padding: 40px;
 			background: #fff;
 			box-sizing: border-box;
-			transform-style: preserve-3d;
+			transform-style: preserve-3d;  /*使被转换的子元素保留3d效果,加上这个属性,img-back翻过去时才会到图片下面*/
 			transform-origin: 0 50% 0;
 			cursor: pointer;
 			transition: left 0.6s ease-in-out, top 0.6s ease-in-out, transform 0.6s ease-in-out;
+			backface-visibility: hidden;
 
 			&.is-inverse{
 				transform: translate(320px) rotateY(180deg);   /*这两个属性顺序不能变*/
@@ -74,7 +75,6 @@ html, body{
         		background: #fff;
         		box-sizing: border-box;
         		transform: rotateY(180deg) translateZ(1px);
-        		backface-visibility: hidden;
 
         		p{
         			margin: 0;
