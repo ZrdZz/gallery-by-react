@@ -43,12 +43,7 @@ html, body{
 			transform-style: preserve-3d;  /*使被转换的子元素保留3d效果,加上这个属性,img-back翻过去时才会到图片下面*/
 			transform-origin: 0 50% 0;
 			cursor: pointer;
-			transition: left 0.6s ease-in-out, top 0.6s ease-in-out, transform 0.6s ease-in-out;
-			backface-visibility: hidden;
-
-			&.is-inverse{
-				transform: translate(320px) rotateY(180deg);   /*这两个属性顺序不能变*/
-			}
+			transition: transform 0.6s ease-in-out;
 		}
 
         figcaption{
@@ -74,7 +69,7 @@ html, body{
         		text-align: left;
         		background: #fff;
         		box-sizing: border-box;
-        		transform: rotateY(180deg) translateZ(1px);
+        		transform: rotateY(180deg);
 
         		p{
         			margin: 0;

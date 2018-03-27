@@ -15,29 +15,17 @@ export default class ImgFigure extends Component{
     e.preventDefault();
   }
 
-  deepCopy(p, c) {
-　　var c = c || {};
-　　　for (var i in p) {
-　　　　if (typeof p[i] === 'object') {
-　　　　　c[i] = (p[i].constructor === Array) ? [] : {};
-　　　　　deepCopy(p[i], c[i]);
-　　　　} else {
-　　　　　c[i] = p[i];
-　　　　}
-　　　}
-　　return c;
-　}
-
   render(){
     var styleObj = {};
    
     //如果props中制定了这张图片的位置信息，则使用
     if(this.props.imgState.pos){
-      styleObj = this.deepCopy(this.props.imgState.pos);
+      let pos = this.props.imgState.pos;
+      styleObj.transform = 'translate(' + pos.left + 'px,' + pos.top + 'px)';
     }
 
     if(this.props.imgState.rotate){
-      styleObj.transform = 'rotate(' + this.props.imgState.rotate + 'deg)';
+      styleObj.transform += ' rotate(' + this.props.imgState.rotate + 'deg)';
     }
 
     if(this.props.imgState.isCenter){
@@ -45,10 +33,18 @@ export default class ImgFigure extends Component{
     }
 
     var imgFigureClassName = "img-figure";
-        imgFigureClassName += this.props.imgState.isInverse ? ' is-inverse' : '';
-   
+
+    if(this.props.imgState.isInverse){
+      var transformValue = document.defaultView.getComputedStyle(this.figure)['transform'];
+      var arr = transformValue.match(/-?\d+/g);
+
+      var posX = parseInt(arr[4].trim()) + 320;
+      var posY = parseInt(arr[5].trim());
+      styleObj.transform = 'matrix3d(-1, 0, 1.22465e-16, 0, 0, 1, 0, 0, -1.22465e-16, 0, -1, 0,' + posX + ',' + posY + ', 0, 1)';
+    }
+
   	return(
-      <figure className = {imgFigureClassName} style = {styleObj} onClick={this.handleClick.bind(this)}>
+      <figure className = {imgFigureClassName} style = {styleObj} onClick={this.handleClick.bind(this)} ref={(figure) => {this.figure = figure}}>
         <img src = {this.props.imageData.imageURL} alt = {this.props.imageData.title}/>
         <figcaption>
           <h2 className = "img-title">{this.props.imageData.title}</h2>          
